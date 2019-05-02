@@ -1,7 +1,7 @@
 {
-  "name": "yerkoh",
+  "name": "Yerkoh",
   "version": "1.0.0",
-  "description": "Converts youtube videos to audio files using youtube API v3, ytdl and ffmpeg",
+  "description": "Converts media platform resources to audio files and serves them.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

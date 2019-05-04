@@ -23,7 +23,6 @@ function youtubeToMp3 (id) {
 
     ffmpeg(stream)
     .audioBitrate(bitrate)
-    .save(target)
     .on('start', () => {
       console.log('started ', id)
     })
@@ -35,6 +34,6 @@ function youtubeToMp3 (id) {
       console.log(`finished downloading ${id}`)
       resolve(target)
     })
-    .run()
+    .save(target)
   })
 }

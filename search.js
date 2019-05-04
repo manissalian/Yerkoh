@@ -1,6 +1,6 @@
 const { google } = require('googleapis'),
-      service = google.youtube('v3'),
-      key = 'AIzaSyAALXBSlFS-9zDESwfztooh2OX-ncTxyO4'
+      { key } = require('./config'),
+      service = google.youtube('v3')
 
 module.exports = {
   youtube: (req, res) => {
@@ -13,7 +13,7 @@ module.exports = {
       type: 'video',
       key
     }
-
+    
     service.search.list(params, (err, resp) => {
       if (err || !resp || !resp.data || !resp.data.items) res.send('Youtube search failed for:', req.query.q)
 

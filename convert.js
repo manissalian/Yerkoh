@@ -32,7 +32,7 @@ function youtubeToMp3 (id) {
     })
     .on('end', () => {
       console.log(`finished downloading ${id}`)
-      resolve(target)
+      resolve(`${id}.mp3`)
     })
     .save(target)
   })

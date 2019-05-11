@@ -1,5 +1,6 @@
-const ytdl = require('ytdl-core'),
-      ffmpeg = require('fluent-ffmpeg')
+const ytdl = require('ytdl-core')
+const ffmpeg = require('fluent-ffmpeg')
+const path = require('path')
 
 module.exports = {
   youtubeToMp3: (req, res) => {
@@ -19,7 +20,7 @@ function youtubeToMp3 (id) {
       quality: 'highestaudio'
     }),
     bitrate = 320,
-    target = `${__dirname}/youtube_files/${id}.mp3`
+    target = path.join(__dirname, `../youtube_files/${id}.mp3`)
 
     ffmpeg(stream)
     .audioBitrate(bitrate)

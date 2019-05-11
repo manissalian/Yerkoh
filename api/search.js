@@ -1,6 +1,6 @@
-const { google } = require('googleapis'),
-      { key } = require('./config'),
-      service = google.youtube('v3')
+const { google } = require('googleapis')
+const { key } = require('../config')
+const service = google.youtube('v3')
 
 module.exports = {
   youtube: (req, res) => {

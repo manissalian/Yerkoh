@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Converts media platform resources to audio files and serves them.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "setup": "node setup.js",
+    "serve": "node app.js"
   },
   "author": "",
   "license": "ISC",

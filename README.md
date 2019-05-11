@@ -1,8 +1,10 @@
 # How to run the project:
 
-## A)Clone/download the project
+## A) Clone/download
 
-## B)Google API Key
+Simply clone or download the project files from this repo
+
+## B) Google API Key
 
 You will first need to obtain a Google API Key. If you already have one, skip to step C.
 Follow these steps in order to obtain a Google API Key:
@@ -13,7 +15,7 @@ Follow these steps in order to obtain a Google API Key:
 5. Go to Credentials page from the left menu
 6. Click on Create credentials and select API key from the list
 
-## C)Setup
+## C) Setup
 
 Before you run the application, you need to setup the environment.
 In order to properly setup the environment, do the following:

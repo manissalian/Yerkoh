@@ -7,7 +7,7 @@ module.exports = {
     if (!req.query.q) res.send('Enter a query')
 
     const params = {
-      maxResults: '10',
+      maxResults: '20',
       part: 'snippet',
       q: req.query.q,
       type: 'video',

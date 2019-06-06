@@ -4,6 +4,7 @@
   "description": "Converts media platform resources to audio files and serves them.",
   "scripts": {
     "setup": "node setup.js",
+    "heroku-prebuild": "node setup.js",
     "serve": "node app.js"
   },
   "author": "",

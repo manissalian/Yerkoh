@@ -15,13 +15,16 @@ module.exports = {
 }
 
 function youtubeToMp3 (id) {
+  console.log(id)
+  console.log(__dirname)
+  console.log(`../youtube_files/${id}.mp3`)
   return new Promise((resolve, reject) => {
     const stream = ytdl(id, {
       quality: 'highestaudio'
     }),
     bitrate = 320,
     target = path.join(__dirname, `../youtube_files/${id}.mp3`)
-
+    console.log('lets go')
     ffmpeg(stream)
     .audioBitrate(bitrate)
     .on('start', () => {
@@ -34,6 +37,9 @@ function youtubeToMp3 (id) {
     .on('end', () => {
       console.log(`finished downloading ${id}`)
       resolve(id)
+    })
+    .on('error', function(err, stdout, stderr) {
+      console.log(err)
     })
     .save(target)
   })

@@ -1,15 +1,10 @@
 const express = require('express')
 const app = express()
-//const port = 3000
+const port = process.env.PORT != null && process.env.PORT != "" ? process.env.PORT : 3000
 
 const search = require('./api/search.js')
 const convert = require('./api/convert.js')
 const download = require('./api/download.js')
-
-let port = process.env.PORT
-if (port == null || port == "") {
-  port = 3000
-}
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)

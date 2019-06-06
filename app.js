@@ -10,11 +10,10 @@ let port = process.env.PORT
 if (port == null || port == "") {
   port = 3000
 }
-app.listen(port)
 
-// app.listen(port, () => {
-//   console.log(`Listening on port ${port}`)
-// })
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`)
+})
 
 app.get('/search/youtube', search.youtube)
 app.get('/convert/youtubeToMp3', convert.youtubeToMp3)

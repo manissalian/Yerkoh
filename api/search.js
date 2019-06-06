@@ -15,6 +15,7 @@ module.exports = {
     }
     
     service.search.list(params, (err, resp) => {
+      console.log(err)
       if (err || !resp || !resp.data || !resp.data.items) res.send('Youtube search failed for:', req.query.q)
 
       const items = resp.data.items.map(item => {

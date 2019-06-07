@@ -3,6 +3,11 @@ module.exports = (req, res, next) => {
   let isFinished = false
   let isDataSent = false
 
+  if (!req.url.includes('/convert')) {
+    next()
+    return
+  }
+
   res.once('finish', () => {
     isFinished = true
   })

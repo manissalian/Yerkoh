@@ -24,10 +24,6 @@ module.exports = (req, res, next) => {
   const waitAndSend = () => {
     setTimeout(() => {
       if (!isFinished && !isDataSent) {
-        if (!res.headersSent) {
-          res.writeHead(202)
-        }
-
         res.write(space)
 
         waitAndSend()

@@ -9,9 +9,7 @@ module.exports = {
     req.setTimeout(0)
 
     youtubeToMp3(req.query.id).then(target => {
-      console.log('target is: ', target)
-      console.log('new target is: ', target.replace(/\s/g, ''))
-      res.end(target.replace(/\s/g, ''))
+      res.end(target)
     })
   }
 }

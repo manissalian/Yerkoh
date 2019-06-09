@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = process.env.PORT != null && process.env.PORT != "" ? process.env.PORT : 3000
+const port = process.env.PORT != null && process.env.PORT != '' ? process.env.PORT : 3000
 
 const search = require('./api/search.js')
 const convert = require('./api/convert.js')

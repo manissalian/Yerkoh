@@ -10,6 +10,8 @@ module.exports = {
 
     youtubeToMp3(req.query.id).then(target => {
       res.end(target)
+    }).catch(e => {
+      res.end(e.message)
     })
   }
 }
@@ -34,6 +36,9 @@ function youtubeToMp3 (id) {
     .on('end', () => {
       console.log(`finished downloading ${id}`)
       resolve(id)
+    })
+    .on('error', e => {
+      reject(e)
     })
     .save(target)
   })

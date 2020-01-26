@@ -4,6 +4,7 @@ const port = process.env.PORT != null && process.env.PORT != '' ? process.env.PO
 
 const search = require('./api/search.js')
 const convert = require('./api/convert.js')
+const converter = require('./api/converter.js')
 const download = require('./api/download.js')
 
 const extendTimeoutMiddleware = require('./middleware/herokuExtendTimeout.js')
@@ -16,4 +17,5 @@ app.listen(port, () => {
 
 app.get('/search/youtube', search.youtube)
 app.get('/convert/youtubeToMp3', convert.youtubeToMp3)
+app.get('/converter/youtubeToMp3', converter.youtubeToMp3)
 app.get('/download/mp3', download.mp3)

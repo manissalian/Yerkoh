@@ -10,34 +10,34 @@ module.exports = {
 
     req.setTimeout(0)
 
-    let totKb = 0
-    const stream = ytdl(id, {
-      quality: 'highestaudio'
-    })
-    .pipe(res)
-
+    // let totKb = 0
     // const stream = ytdl(id, {
     //   quality: 'highestaudio'
-    // }),
-    // bitrate = 320
-
-    // const proc = ffmpeg(stream)
-    // .audioBitrate(bitrate)
-    // .toFormat('mp3')
-    // .on('start', () => {
-    //   console.log('started ', id)
-    // })
-    // .on('progress', p => {
-    //   console.log(`${id}: ${(p.targetSize / 1000).toFixed(2)}mb downloaded at ${p.currentKbps}kb/s speed`)
-    //   console.log('________')
-    // })
-    // .on('end', () => {
-    //   console.log(`finished downloading ${id}`)
-    // })
-    // .on('error', e => {
-    //   console.log('error is: ', e)
-    //   res.end('Cant convert this video')
     // })
     // .pipe(res)
+
+    const stream = ytdl(id, {
+      quality: 'highestaudio'
+    }),
+    bitrate = 320
+
+    const proc = ffmpeg(stream)
+    .audioBitrate(bitrate)
+    .toFormat('mp3')
+    .on('start', () => {
+      console.log('started ', id)
+    })
+    .on('progress', p => {
+      console.log(`${id}: ${(p.targetSize / 1000).toFixed(2)}mb downloaded at ${p.currentKbps}kb/s speed`)
+      console.log('________')
+    })
+    .on('end', () => {
+      console.log(`finished downloading ${id}`)
+    })
+    .on('error', e => {
+      console.log('error is: ', e)
+      res.end('Cant convert this video')
+    })
+    .pipe(res)
   }
 }

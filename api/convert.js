@@ -36,12 +36,28 @@ module.exports = {
             (+timeUnitArray[2])
           )
 
-          const progressPercent = (progressSeconds / duration * 100).toFixed(2)
-          console.log(progressPercent + '%')
+          const progressPercent = (progressSeconds / duration * 100).toFixed(2) + '%'
+          console.log(progressPercent)
           console.log('______')
+
+          const progressResponse = {
+            progress: progressPercent
+          }
+
+          res.write(JSON.stringify(progressResponse))
         })
         .on('error', e => {
-          res.end(e.message)
+          console.log(e.message)
+          res.status(500).end(e.message)
+        })
+        .on('end', () => {
+          console.log('success: ' + id)
+
+          const successResponse = {
+            success: true
+          }
+
+          res.end(JSON.stringify(successResponse))
         })
 
       const method = req.params.method
@@ -57,7 +73,9 @@ module.exports = {
         })
         .save(target)
       } else if (method === 'stream') {
-        ffmpegProcess.pipe(res)
+        ffmpegProcess.pipe(res, {
+          end: false
+        })
       } else {
         res.end('Error determining method. Valid methods are: save, stream')
       }

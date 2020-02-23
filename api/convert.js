@@ -1,6 +1,7 @@
 const ytdl = require('ytdl-core')
 const ffmpeg = require('fluent-ffmpeg')
 const path = require('path')
+const { Readable } = require('stream')
 
 module.exports = {
   youtubeToMp3: (req, res) => {
@@ -15,6 +16,10 @@ module.exports = {
       quality: 'highestaudio'
     })
 
+    const progressStream = new Readable({
+      read() {}
+    })
+
     ytdl.getInfo(id)
     .then(info => {
       return +info.player_response.videoDetails.lengthSeconds
@@ -26,6 +31,7 @@ module.exports = {
         .toFormat('mp3')
         .on('start', () => {
           console.log('started ', id)
+
         })
         .on('progress', p => {
           const timeMark = p.timemark
@@ -36,15 +42,13 @@ module.exports = {
             (+timeUnitArray[2])
           )
 
-          const progressPercent = (progressSeconds / duration * 100).toFixed(2) + '%'
-          console.log(progressPercent)
+          const progress = (progressSeconds / duration * 100).toFixed(2) + '%'
+          console.log(progress)
           console.log('______')
 
-          const progressResponse = {
-            progress: progressPercent
-          }
-
-          res.write(JSON.stringify(progressResponse))
+          progressStream.push(JSON.stringify({
+            progress
+          }))
         })
         .on('error', e => {
           console.log(e.message)
@@ -52,12 +56,12 @@ module.exports = {
         })
         .on('end', () => {
           console.log('success: ' + id)
-
           const successResponse = {
             success: true
           }
 
-          res.end(JSON.stringify(successResponse))
+          progressStream.push(JSON.stringify(successResponse))
+          res.end()
         })
 
       const method = req.params.method
@@ -74,6 +78,10 @@ module.exports = {
         .save(target)
       } else if (method === 'stream') {
         ffmpegProcess.pipe(res, {
+          end: false
+        })
+
+        progressStream.pipe(res, {
           end: false
         })
       } else {

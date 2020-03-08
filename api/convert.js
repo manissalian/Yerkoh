@@ -1,23 +1,22 @@
 const ytdl = require('ytdl-core')
 const ffmpeg = require('fluent-ffmpeg')
 const path = require('path')
-const { Readable } = require('stream')
+const EventEmitter = require('events')
+
+const progressEmitters = {}
 
 module.exports = {
   youtubeToMp3: (req, res) => {
     if (!req.query.id) res.end('Enter a youtube videoId')
 
     const id = req.query.id
+    const conversionId = req.query.conversionId
     const BIT_RATE = 320
 
     req.setTimeout(0)
 
     const stream = ytdl(id, {
       quality: 'highestaudio'
-    })
-
-    const progressStream = new Readable({
-      read() {}
     })
 
     ytdl.getInfo(id)
@@ -31,7 +30,6 @@ module.exports = {
         .toFormat('mp3')
         .on('start', () => {
           console.log('started ', id)
-
         })
         .on('progress', p => {
           const timeMark = p.timemark
@@ -46,21 +44,26 @@ module.exports = {
           console.log(progress)
           console.log('______')
 
-          progressStream.push(JSON.stringify({
-            progress
-          }))
+          if (progressEmitters[conversionId]) {
+            progressEmitters[conversionId].emit('progress', progress)
+          }
         })
         .on('error', e => {
           console.log(e.message)
+
+          if (progressEmitters[conversionId]) {
+            delete progressEmitters[conversionId]
+          }
+
           res.status(500).end(e.message)
         })
         .on('end', () => {
-          console.log('success: ' + id)
-          const successResponse = {
-            success: true
+          console.log('complete: ' + id)
+
+          if (progressEmitters[conversionId]) {
+            progressEmitters[conversionId].emit('complete')
           }
 
-          progressStream.push(JSON.stringify(successResponse))
           res.end()
         })
 
@@ -80,13 +83,35 @@ module.exports = {
         ffmpegProcess.pipe(res, {
           end: false
         })
-
-        progressStream.pipe(res, {
-          end: false
-        })
       } else {
         res.end('Error determining method. Valid methods are: save, stream')
       }
+    })
+  },
+  getProgress: (req, res) => {
+    const conversionId = req.query.conversionId
+
+    progressEmitters[conversionId] = new EventEmitter()
+
+    res.setHeader('X-Content-Type-Options', 'nosniff')
+
+    const progressCallback = progress => {
+      res.write(JSON.stringify({
+        progress
+      }))
+    }
+    progressEmitters[conversionId].on('progress', progressCallback)
+
+    progressEmitters[conversionId].once('complete', () => {
+      console.log(conversionId)
+
+      progressEmitters[conversionId].removeListener('progress', progressCallback)
+
+      delete progressEmitters[conversionId]
+
+      res.end(JSON.stringify({
+        success: true
+      }))
     })
   }
 }

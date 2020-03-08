@@ -16,4 +16,5 @@ app.listen(port, () => {
 
 app.get('/search/youtube', search.youtube)
 app.get('/convert/youtubeToMp3/:method', convert.youtubeToMp3)
+app.get('/convert/progress', convert.getProgress)
 app.get('/download/mp3', download.mp3)

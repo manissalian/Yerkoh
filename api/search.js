@@ -53,6 +53,8 @@ module.exports = {
 function ytDurationToSeconds(duration) {
   let match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
 
+  if (!match) return 0
+
   match = match.slice(1).map(x => {
     if (x == null) return
 

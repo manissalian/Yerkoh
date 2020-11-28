@@ -87,6 +87,9 @@ module.exports = {
         res.end('Error determining method. Valid methods are: save, stream')
       }
     })
+    .catch(e => {
+      res.status(500).end()
+    })
   },
   getProgress: (req, res) => {
     const conversionId = req.query.conversionId

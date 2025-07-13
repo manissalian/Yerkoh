@@ -63,8 +63,6 @@ module.exports = {
           if (progressEmitters[conversionId]) {
             progressEmitters[conversionId].emit('complete')
           }
-
-          res.end()
         })
 
       const method = req.params.method

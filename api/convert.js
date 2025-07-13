@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core')
+const ytdl = require('@distube/ytdl-core')
 const ffmpeg = require('fluent-ffmpeg')
 const path = require('path')
 const EventEmitter = require('events')
